@@ -1,7 +1,13 @@
 version: 2.1
 
+executors:
+  docker-machine-executor:
+    machine:
+      image: ubuntu-2004:202101-01  # Uses a full virtual machine
+
 jobs:
   build-frontend:
+    executor: docker-machine-executor  # Reference the executor here
     steps:
       - checkout
       - setup_remote_docker
@@ -21,6 +27,7 @@ jobs:
             docker push hoangson00/udagram-frontend
 
   build-backend:
+    executor: docker-machine-executor  # Reference the executor here
     steps:
       - checkout
       - setup_remote_docker
@@ -42,6 +49,7 @@ jobs:
             docker push hoangson00/udagram-api-user
 
   build-reverseproxy:
+    executor: docker-machine-executor  # Reference the executor here
     steps:
       - checkout
       - setup_remote_docker
