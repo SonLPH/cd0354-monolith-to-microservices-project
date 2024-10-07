@@ -12,6 +12,7 @@ jobs:
   build-frontend:
     executor: docker-executor
     steps:
+      - setup_remote_docker
       - checkout
       - run:
           name: Build frontend Docker image
@@ -26,6 +27,7 @@ jobs:
   build-backend-feed:
     executor: docker-executor
     steps:
+      - setup_remote_docker
       - checkout
       - run:
           name: Build backend-feed Docker image
@@ -40,6 +42,7 @@ jobs:
   build-backend-user:
     executor: docker-executor
     steps:
+      - setup_remote_docker
       - checkout
       - run:
           name: Build backend-user Docker image
@@ -54,6 +57,7 @@ jobs:
   build-reverseproxy:
     executor: docker-executor
     steps:
+      - setup_remote_docker
       - checkout
       - run:
           name: Build reverseproxy Docker image
