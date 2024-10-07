@@ -17,7 +17,7 @@ jobs:
       - run:
           name: Login to DockerHub
           command: |
-            echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin
+            echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USER --password-stdin
       - run:
           name: Build frontend Docker image
           command: docker build -t udagram-frontend ./udagram-frontend
@@ -36,7 +36,7 @@ jobs:
       - run:
           name: Login to DockerHub
           command: |
-            echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin
+            echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USER --password-stdin
       - run:
           name: Build backend-feed Docker image
           command: docker build -t udagram-api-feed ./udagram-api-feed
@@ -55,7 +55,7 @@ jobs:
       - run:
           name: Login to DockerHub
           command: |
-            echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin
+            echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USER --password-stdin
       - run:
           name: Build backend-user Docker image
           command: docker build -t udagram-api-user ./udagram-api-user
@@ -74,7 +74,7 @@ jobs:
       - run:
           name: Login to DockerHub
           command: |
-            echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin
+            echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USER --password-stdin
       - run:
           name: Build reverseproxy Docker image
           command: docker build -t udagram-reverseproxy ./udagram-reverseproxy
