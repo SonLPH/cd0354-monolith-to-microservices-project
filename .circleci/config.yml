@@ -5,8 +5,8 @@ executors:
     docker:
       - image: circleci/node:16
         auth:
-          username: $DOCKER_USERNAME
-          password: $DOCKER_PASSWORD
+          username: $DOCKERHUB_USER
+          password: $DOCKERHUB_PASS
 
 jobs:
   build-frontend:
