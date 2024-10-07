@@ -6,7 +6,7 @@ executors:
       - image: circleci/node:16
         auth:
           username: $DOCKERHUB_USER
-          password: $DOCKERHUB_PASS
+          password: $DOCKERHUB_TOKEN
 
 jobs:
   build-frontend:
