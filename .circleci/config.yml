@@ -77,13 +77,13 @@ jobs:
             echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USER --password-stdin
       - run:
           name: Build reverseproxy Docker image
-          command: docker build -t udagram-reverseproxy ./udagram-reverseproxy
+          command: docker build -t reverseproxy ./reverseproxy
       - run:
           name: Tag reverseproxy Docker image
-          command: docker tag udagram-reverseproxy hoangson00/udagram-reverseproxy:v1
+          command: docker tag reverseproxy hoangson00/reverseproxy:v1
       - run:
           name: Push reverseproxy image to DockerHub
-          command: docker push hoangson00/udagram-reverseproxy:v1
+          command: docker push hoangson00/reverseproxy:v1
 
 workflows:
   version: 2
