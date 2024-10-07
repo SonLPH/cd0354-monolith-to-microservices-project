@@ -1,74 +1,75 @@
 version: 2.1
 
 executors:
-  docker-machine-executor:
-    machine:
-      image: ubuntu-2004:202101-01  # Full virtual machine (already has Docker installed)
+  docker-executor:
+    docker:
+      - image: circleci/node:16
+        auth:
+          username: $DOCKER_USERNAME
+          password: $DOCKER_PASSWORD
 
 jobs:
   build-frontend:
-    executor: docker-machine-executor
+    executor: docker-executor
     steps:
       - checkout
       - run:
           name: Build frontend Docker image
-          command: |
-            docker build -t hoangson00/udagram-frontend ./udagram-frontend
-
+          command: docker build -t udagram-frontend ./udagram-frontend
       - run:
-          name: Login to DockerHub
-          command: |
-            echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin
-
+          name: Tag frontend Docker image
+          command: docker tag udagram-frontend hoangson00/udagram-frontend:v1
       - run:
           name: Push frontend image to DockerHub
-          command: |
-            docker push hoangson00/udagram-frontend
+          command: docker push hoangson00/udagram-frontend:v1
 
-  build-backend:
-    executor: docker-machine-executor
+  build-backend-feed:
+    executor: docker-executor
     steps:
       - checkout
       - run:
-          name: Build backend Docker images
-          command: |
-            docker build -t hoangson00/udagram-api-feed ./udagram-api-feed
-            docker build -t hoangson00/udagram-api-user ./udagram-api-user
-
+          name: Build backend-feed Docker image
+          command: docker build -t udagram-api-feed ./udagram-api-feed
       - run:
-          name: Login to DockerHub
-          command: |
-            echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin
-
+          name: Tag backend-feed Docker image
+          command: docker tag udagram-api-feed hoangson00/udagram-api-feed:v1
       - run:
-          name: Push backend images to DockerHub
-          command: |
-            docker push hoangson00/udagram-api-feed
-            docker push hoangson00/udagram-api-user
+          name: Push backend-feed image to DockerHub
+          command: docker push hoangson00/udagram-api-feed:v1
+
+  build-backend-user:
+    executor: docker-executor
+    steps:
+      - checkout
+      - run:
+          name: Build backend-user Docker image
+          command: docker build -t udagram-api-user ./udagram-api-user
+      - run:
+          name: Tag backend-user Docker image
+          command: docker tag udagram-api-user hoangson00/udagram-api-user:v1
+      - run:
+          name: Push backend-user image to DockerHub
+          command: docker push hoangson00/udagram-api-user:v1
 
   build-reverseproxy:
-    executor: docker-machine-executor
+    executor: docker-executor
     steps:
       - checkout
       - run:
           name: Build reverseproxy Docker image
-          command: |
-            docker build -t hoangson00/udagram-reverseproxy ./udagram-reverseproxy
-
+          command: docker build -t udagram-reverseproxy ./udagram-reverseproxy
       - run:
-          name: Login to DockerHub
-          command: |
-            echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin
-
+          name: Tag reverseproxy Docker image
+          command: docker tag udagram-reverseproxy hoangson00/udagram-reverseproxy:v1
       - run:
           name: Push reverseproxy image to DockerHub
-          command: |
-            docker push hoangson00/udagram-reverseproxy
+          command: docker push hoangson00/udagram-reverseproxy:v1
 
 workflows:
   version: 2
   build-and-push:
     jobs:
       - build-frontend
-      - build-backend
+      - build-backend-feed
+      - build-backend-user
       - build-reverseproxy
