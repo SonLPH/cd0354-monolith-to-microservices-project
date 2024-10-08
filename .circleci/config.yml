@@ -45,7 +45,7 @@ jobs:
           command: docker tag udagram-api-feed hoangson00/udagram-api-feed:v2
       - run:
           name: Push backend-feed image to DockerHub
-          command: docker push hoangson00/udagram-api-feed:v1
+          command: docker push hoangson00/udagram-api-feed:v2
 
   build-backend-user:
     executor: docker-executor
