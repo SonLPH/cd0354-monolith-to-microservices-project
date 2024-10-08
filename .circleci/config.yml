@@ -23,10 +23,10 @@ jobs:
           command: docker build -t udagram-frontend ./udagram-frontend
       - run:
           name: Tag frontend Docker image
-          command: docker tag udagram-frontend hoangson00/udagram-frontend:v2
+          command: docker tag udagram-frontend hoangson00/udagram-frontend:v3
       - run:
           name: Push frontend image to DockerHub
-          command: docker push hoangson00/udagram-frontend:v2
+          command: docker push hoangson00/udagram-frontend:v3
 
   build-backend-feed:
     executor: docker-executor
