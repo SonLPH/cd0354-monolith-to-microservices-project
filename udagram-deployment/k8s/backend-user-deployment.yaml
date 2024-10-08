@@ -16,7 +16,7 @@ spec:
         service: backend-user
     spec:
       containers:
-      - image: hoangson00/udagram-api-user:v1
+      - image: hoangson00/udagram-api-user:v2
         name: backend-user 
         imagePullPolicy: Always  
         resources:
@@ -37,24 +37,24 @@ spec:
             configMapKeyRef:
               name: env-config
               key: JWT_SECRET
-        - name: POSTGRESS_DB
+        - name: POSTGRES_DB
           valueFrom:
             configMapKeyRef:
               name: env-config
               key: POSTGRESS_DB
-        - name: POSTGRESS_HOST
+        - name: POSTGRES_HOST
           valueFrom:
             configMapKeyRef:
               name: env-config
               key: POSTGRESS_HOST
-        - name: POSTGRESS_PASSWORD
+        - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
               name: env-secret
-              key: POSTGRESS_PASSWORD
-        - name: POSTGRESS_USERNAME
+              key: POSTGRES_PASSWORD
+        - name: POSTGRES_USERNAME
           valueFrom:
             secretKeyRef:
               name: env-secret
-              key: POSTGRESS_USERNAME
+              key: POSTGRES_USERNAME
       restartPolicy: Always
