@@ -1,32 +1,42 @@
-  
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: udagram-frontend
   labels:
-    service: frontend
-  name: frontend
+    app: udagram-frontend
 spec:
+  replicas: 1
   selector:
     matchLabels:
-      service: frontend
-  replicas: 1
+      app: udagram-frontend
   template:
     metadata:
       labels:
-        service: frontend
-        api: external        
+        app: udagram-frontend
     spec:
       containers:
-      - image: hoangson00/udagram-frontend:v3
-        name: frontend
-        imagePullPolicy: Always          
-        ports:
-        - containerPort: 80
-        resources:
-          requests:
-            memory: "64Mi"
-            cpu: "250m"
-          limits:
-            memory: "1024Mi"
-            cpu: "500m"                
-      restartPolicy: Always
+        - name: udagram-frontend
+          image: docker.io/hoangson00/udagram-frontend:v1
+          ports:
+            - containerPort: 80
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 250m
+            limits:
+              cpu: 500m
+          envFrom:
+            - secretRef:
+                name: postgres-secret
+            - secretRef:
+                name: aws-secret
+            - configMapRef:
+                name: udagram-config-map
+          volumeMounts:
+            - mountPath: "/root/.aws/"
+              name: aws-secret
+              readOnly: true
+      volumes:
+        - name: aws-secret
+          secret:
+            secretName: aws-secret
